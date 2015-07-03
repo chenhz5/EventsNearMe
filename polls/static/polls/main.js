@@ -31,7 +31,6 @@ function generateDivs(numDivs){
 	console.log("in generate divs: " + numDivs);
     for(divIndex; divIndex< numDivs; divIndex++) {
         var d_id = divIndex+1; //??
-        //$( "<div id='eventDiv-"+d_id+"'></div>" ).insertAfter( "#eventDiv-"+divIndex );
         var div = jQuery('<div style="border:1px solid black;width:50%; padding:10px;" id="eventDiv-'+ divIndex + '"></div>')
         jQuery('body').append(div);
     }
@@ -43,9 +42,19 @@ var jumpToUrl = function(){
 		  window.location.href = val.url;
 	  }
 	};
+var deleteOldDivs = function(numDivs){
+	var divIndex=0;
+	console.log("deleting divs" + numDivs);
+    for(divIndex; divIndex< numDivs; divIndex++) {
+        var d_id = divIndex+1; //
+        $("#eventDiv-"+divIndex).remove();
+    }
+}
 
+var old_length = 0;
 var get_event_cb = function(data) {
   //alert('Your data is ' + data);
+	deleteOldDivs(data.length);
   generateDivs(data.length);
   jQuery.each(data, function(i, val) {
 	  console.log(val.name + "*** " + val.url);
@@ -59,7 +68,7 @@ var get_event_cb = function(data) {
 	  //$("#eventDiv-" + i).addEventListener("click", function(){
 	  $("#eventDiv-" + i).bind("click", jumpToUrl, false);
 		
-	  
+	  old_length = data.length;
 	});
   
   document.getElementById("submit_btn").disabled = false;
@@ -98,6 +107,7 @@ function onSubmitClicked(){
 	console.log("max_results " + max_results);
 	
 	baseUrl = "http://127.0.0.1:8000/event/";
+	//baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/showEvents/"
 	url = baseUrl + "city="+city+ "&category="+category;
 	if(max_results != null){
 		url += "&max_results="+max_results
