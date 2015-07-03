@@ -1,5 +1,7 @@
 # EventsNearMe. 
 
+The API collects events from www.meetup.com and www.eventbrite.com, and shows an aggregated result. 
+
 API can be accessed from: 
 http://ec2-54-152-59-253.compute-1.amazonaws.com/showEvents/
 
