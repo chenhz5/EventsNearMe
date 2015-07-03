@@ -1,8 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
-from rest_framework import routers, serializers, viewsets
-from django.contrib.auth.models import User
-from djangoRestAPI import views
+from EventAggregator import views
 
 
 
