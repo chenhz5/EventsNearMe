@@ -96,5 +96,3 @@ def getBriteEvents(urlParam = {}):
     print response.url
     return filterBriterResults(response.text)
 
-
-

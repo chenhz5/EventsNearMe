@@ -106,8 +106,8 @@ function onSubmitClicked(){
 	//TODO: validate if max_result is an int
 	console.log("max_results " + max_results);
 	
-	baseUrl = "http://127.0.0.1:8000/event/";
-	//baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/showEvents/"
+	//baseUrl = "http://127.0.0.1:8000/event/";
+	baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/showEvents/"
 	url = baseUrl + "city="+city+ "&category="+category;
 	if(max_results != null){
 		url += "&max_results="+max_results
