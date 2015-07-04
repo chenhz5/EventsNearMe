@@ -67,10 +67,13 @@ var get_event_cb = function(response) {
 		div.append(document.createTextNode("Sorry! Could not fetch any results."));
         jQuery('body').append(div);
 	}
+	
 	generateDivs(data.length);
     jQuery.each(data, function(i, val) {
     	var eventDivName = '#eventDiv-'+i;
-    	
+    	if(val.description){
+    		val.description = val.description.substring(0, 200) + "...";
+    	}
     	glob_url = val.url;
 		content = '<table onclick ="jumpToUrl()" >';
 		content += '<tr><td>' +"<b>Name</b> - " + val.name  + '</td></tr>';
@@ -117,12 +120,15 @@ function onSubmitClicked(){
 	//TODO: validate if max_result is an int
 	console.log("max_results**" + max_results + "**");
 	
-	//var baseUrl = "http://127.0.0.1:8000/event/";
-	baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
+	var baseUrl = "http://127.0.0.1:8000/event/";
+	//baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
 	var url = baseUrl + "city="+city+ "&category="+category;
 	if(max_results){
 		url += "&max_results="+max_results
 	}
+	
+	//html = '<i id = "loading_anim" class="fa fa-refresh fa-spin"></i>'
+	//$('loading-div').append(html);
 	
 	console.log("final url: "+ url);
 	getJSON(url, get_event_cb, onErrorcb);

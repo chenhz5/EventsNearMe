@@ -5,7 +5,8 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="{% static "polls/main.js" %}"></script>
-<link rel="stylesheet" type="text/css" src="{% static "polls/mystyle.css" %}">
+<!-- <link rel="stylesheet" type="text/css" src="{% static "polls/mystyle.css" %}">-->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 
 <body id="body">
@@ -22,17 +23,27 @@
 <input type="text" id="select_city" name="city" value="Delhi"><br><br>
 
 <label> Select Category</label> &nbsp &nbsp
+<!-- ",
+                        "travel_outdoor": 109, -->
 <select id = "select_category" name="category">
   <option value="music">Music</option>
   <option value="sports">Sports</option>
   <option value="spirituality">Spirituality</option>
+  <option value="food">Food</option>
   <option value="business">Business</option>
+  <option value="literature">Literature</option>
+  <option value="dancing">Dance</option>
+  <option value="community">Community</option>
+  <option value="arts">Arts</option>
+  <option value="travel_outdoor">Travel And Outdoor</option>
 </select><br><br>
 
  <label> Max Results</label> &nbsp &nbsp &nbsp  &nbsp
  <input type="text" id="max_results" name="max_results"><br><br><!-- max results -->
  <input id="submit_btn" type="submit" value="Submit" onclick="onSubmitClicked()">
- &nbsp &nbsp &nbsp &nbsp 
+ <!-- <div id="loading-div"></div>  -->
+ 
+ &nbsp &nbsp &nbsp &nbsp
  <!-- <input id="reset_btn" type="submit" value="Reset" onclick="onResetClicked()"> -->
  <br><br><br>
 

@@ -19,17 +19,24 @@ meetupCategoriesDict = {
                   "literature": 18,
                   "sports": 11,
                   "dancing" : 5,
-                  "business": 2
+                  "business": 2,
+                  "arts" : 1,
+                  "travel_outdoor": 23,
+                  "community" : 4,
+                  "business" : 2
                   }
 #TODO : use enum for cities and categories
 
 briteCategoriesDict = {
-                       "music" : 103,
-                       "business": 101,
-                       "food": 110,
-                       "sports": 108,
-                       "spirituality": 114
-                       }
+                        "music" : 103,
+                        "business": 101,
+                        "food": 110,
+                        "sports": 108,
+                        "spirituality": 114,
+                        "community" : 113,
+                        "arts" : 105,
+                        "travel_outdoor": 109,
+                        }
 
 
 #TODO: look for  library support for this
