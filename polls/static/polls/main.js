@@ -37,10 +37,9 @@ function generateDivs(numDivs){
 } ;
 
 var jumpToUrl = function(){
-    //redirect to a new page
 	console.log("in jump to URL");
-	if(val.url != null){
-	  window.location.href = val.url;
+	if(glob_url){
+	  window.open(glob_url);
 	 }
 	};
 var deleteOldDivs = function(numDivs){
@@ -71,10 +70,11 @@ var get_event_cb = function(response) {
 	generateDivs(data.length);
     jQuery.each(data, function(i, val) {
     	var eventDivName = '#eventDiv-'+i;
+    	glob_url = val.url;
 		console.log(val.name + "*** " + val.url);
-	      content = "<table>";
+	      content = '<table onclick ="jumpToUrl()" >';
 	      content += '<tr><td>' +"<b>Name</b> - " + val.name  + '</td></tr>';
-	      content += '<tr><td>' +"<b>Url</b> -" + val.url  + '</td></tr>';
+	      content += '<tr><td>' +'<b>Url</b> -<a href="'+ val.url + '" target="_blank">' + val.url  + '</td></tr>';
 	      content += '<tr><td>' +"<b>Info Source</b> -" + val.info_source  + '</td></tr>';
 	      content += '<tr><td>' +"<b>Description</b> -" + val.description  + '</td></tr>';
 	      
@@ -84,15 +84,15 @@ var get_event_cb = function(response) {
     });
 	
  
-  jQuery.each(data, function(i, val) {
-	  console.log("adding url links to dynamic div");
-	//TODO: error because the js is called before the div is loaded
-	  console.log("#eventDiv-" + i);
-	  //$("#eventDiv-" + i).addEventListener("click", function(){
-	  $("#eventDiv-" + i).bind("click", jumpToUrl, false);
-	  old_length = data.length;
-
-	});
+//  jQuery.each(data, function(i, val) {
+//	  console.log("adding url links to dynamic div");
+//	//TODO: error because the js is called before the div is loaded
+//	  console.log("#eventDiv-" + i);
+//	  //$("#eventDiv-" + i).addEventListener("click", function(){
+//	  $("#eventDiv-" + i).bind("click", jumpToUrl, false);
+//	  old_length = data.length;
+//
+//	});
   
   document.getElementById("submit_btn").disabled = false;
   //document.getElementById("submit_btn").disabled = false;
@@ -133,8 +133,8 @@ function onSubmitClicked(){
 	//TODO: validate if max_result is an int
 	console.log("max_results**" + max_results + "**");
 	
-	var baseUrl = "http://127.0.0.1:8000/event/";
-	//baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
+//	var baseUrl = "http://127.0.0.1:8000/event/";
+	baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
 	var url = baseUrl + "city="+city+ "&category="+category;
 	if(max_results){
 		url += "&max_results="+max_results
