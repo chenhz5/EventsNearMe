@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" src="{% static "polls/mystyle.css" %}">
 </head>
 
-<body>
+<body id="body">
 <h1>Events Near Me</h1>
 
 <!-- TODO: put contents in a table and add js validation at client side -->
@@ -19,7 +19,7 @@
   <option value="Bangalore">Bangalore</option>
   <option value="Mumbai">Mumbai</option>
 </select> <br><br>-->
-<input type="text" id="select_city" name="city"><br><br>
+<input type="text" id="select_city" name="city" value="Delhi"><br><br>
 
 <label> Select Category</label> &nbsp &nbsp
 <select id = "select_category" name="category">
@@ -32,6 +32,8 @@
  <label> Max Results</label> &nbsp &nbsp &nbsp  &nbsp
  <input type="text" id="max_results" name="max_results"><br><br><!-- max results -->
  <input id="submit_btn" type="submit" value="Submit" onclick="onSubmitClicked()">
+ &nbsp &nbsp &nbsp &nbsp 
+ <!-- <input id="reset_btn" type="submit" value="Reset" onclick="onResetClicked()"> -->
  <br><br><br>
 
  <div id="error_or_no_result" name = "error_or_no_result"></div>

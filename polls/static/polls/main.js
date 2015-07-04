@@ -70,10 +70,20 @@ var get_event_cb = function(response) {
 	}
 	generateDivs(data.length);
     jQuery.each(data, function(i, val) {
-	  console.log(val.name + "*** " + val.url);
-      $("#eventDiv-" + i).append(document.createTextNode(" - " + val.name + "**URL**" + val.url ));
+    	var eventDivName = '#eventDiv-'+i;
+		console.log(val.name + "*** " + val.url);
+	      content = "<table>";
+	      content += '<tr><td>' +"<b>Name</b> - " + val.name  + '</td></tr>';
+	      content += '<tr><td>' +"<b>Url</b> -" + val.url  + '</td></tr>';
+	      content += '<tr><td>' +"<b>Info Source</b> -" + val.info_source  + '</td></tr>';
+	      content += '<tr><td>' +"<b>Description</b> -" + val.description  + '</td></tr>';
+	      
+	      content += "</table>";
+
+	      	$(eventDivName).append(content);
     });
-  
+	
+ 
   jQuery.each(data, function(i, val) {
 	  console.log("adding url links to dynamic div");
 	//TODO: error because the js is called before the div is loaded
@@ -85,6 +95,7 @@ var get_event_cb = function(response) {
 	});
   
   document.getElementById("submit_btn").disabled = false;
+  //document.getElementById("submit_btn").disabled = false;
 
 };
 
@@ -92,6 +103,7 @@ var onErrorcb = function(status) {
   alert('Something went wrong.');
   //enable submit button
   document.getElementById("submit_btn").disabled = false;
+  //document.getElementById("submit_btn").disabled = false;
 	
 };
 
@@ -100,14 +112,17 @@ $(document).ready(function() {
 	//getJSON("http://127.0.0.1:8000/event/city=bangalore&category=sports", get_event_cb, onErrorcb);
 });
 
+var onResetClicked = function() {
+	
+}
 
 function onSubmitClicked(){
 	
 	//TODO: get params from form and generate the url
 	document.getElementById("submit_btn").disabled = true;
+	//document.getElementById("reset_btn").disabled = true;
 	
 	var city = document.getElementById("select_city").value;
-	//city = e.options[e.selectedIndex].value;
 	console.log("city: " + city);
 	
 	var f = document.getElementById("select_category");
@@ -118,8 +133,8 @@ function onSubmitClicked(){
 	//TODO: validate if max_result is an int
 	console.log("max_results**" + max_results + "**");
 	
-	//var baseUrl = "http://127.0.0.1:8000/event/";
-	baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
+	var baseUrl = "http://127.0.0.1:8000/event/";
+	//baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
 	var url = baseUrl + "city="+city+ "&category="+category;
 	if(max_results){
 		url += "&max_results="+max_results
