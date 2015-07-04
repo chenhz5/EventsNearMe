@@ -35,7 +35,9 @@ briteCategoriesDict = {
 #TODO: look for  library support for this
 """splits string based on '&' and generates key val pairs""" 
 def parseInputParams(inputParams):
-    sections = inputParams.split('&')
+    if inputParams == "" or inputParams is None:
+        return None
+    sections = inputParams.strip().split('&')
     ret = {}
     for section in sections:
         if '=' not in section:
@@ -51,6 +53,7 @@ def parseInputParams(inputParams):
     return ret
 
 def inputInvalid(urlFields):
+    if urlFields is None: return None
     for key in urlFields:
         if key not in API_INPUT_PARAMS:
             print key
@@ -78,10 +81,8 @@ def fetchMeetupEvents(urlFieldsParsed, maxResults):
     return getMeetupEvent(meetupFields)[:maxResults]
 
 def aggregateResponses(meetup, brite):
-    if brite is None:
-        brite = []
-    if meetup is None:
-        meetup = []
+    if brite is None:   brite = []
+    if meetup is None:  meetup = []
     return json.dumps(meetup + brite)
 
 def mapToBriteFields(urlFields):    
@@ -108,16 +109,21 @@ def fetchBriteEvents(urlFields, maxResults):
     briteEvents = getBriteEvents(briteFields)
     return briteEvents[:maxResults] if briteEvents is not None else None
 
+def MyErrorResponse(errorMessage):
+    #errorMessage = json.dumps("") 
+    return HttpResponse(errorMessage) #convert this to json response
 
 def getEvents(request, inputParams):
+    if inputParams is None or inputParams == "":
+        return MyErrorResponse("Invalid input. No params found")
     urlDecoded = urllib.unquote(inputParams).decode('utf8') 
     urlFieldsParsed = parseInputParams(urlDecoded)
     if inputInvalid(urlFieldsParsed):
-        return HttpResponse("Invalid API params. Allowed params are city, lat, lon and category")
+        return MyErrorResponse("Invalid API params. Allowed params are city, lat, lon and category")
     try:
         maxResults = urlFieldsParsed['max_results']
     except KeyError:
-        maxResults = 10
+        maxResults = DEFAULT_MAX_RESULT
     print urlFieldsParsed
     
     meetupEvents = fetchMeetupEvents(urlFieldsParsed,  maxResults = int(maxResults/2))
