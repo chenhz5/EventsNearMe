@@ -41,8 +41,10 @@ def parseInputParams(inputParams):
     ret = {}
     for section in sections:
         if '=' not in section:
-            continue
+            return None
         key, val = section.split('=')
+        if val is None or val == "":
+            return None
         if key == "max_results":
             try:
                 ret[key] = int(val)
@@ -53,7 +55,7 @@ def parseInputParams(inputParams):
     return ret
 
 def inputInvalid(urlFields):
-    if urlFields is None: return None
+    if urlFields is None: return True
     for key in urlFields:
         if key not in API_INPUT_PARAMS:
             print key
@@ -74,13 +76,19 @@ def mapToMeetupFields(urlFields):
     return meetupFields
 
 def fetchMeetupEvents(urlFieldsParsed, maxResults):
+    print "fetching meetup events. Max Results: "+ str(maxResults)
     meetupFields = mapToMeetupFields(urlFieldsParsed)
     if meetupFields is None:
+        print "meetupFields is None"
         #return HttpResponse("Invalid API params. category not found")
         return None
-    return getMeetupEvent(meetupFields)[:maxResults]
+    result = getMeetupEvent(meetupFields)
+    print "after getMeetup event"
+    return result[:maxResults]
 
 def aggregateResponses(meetup, brite):
+    print "in aggregate Responses"
+    print meetup
     if brite is None:   brite = []
     if meetup is None:  meetup = []
     result = {
@@ -116,7 +124,7 @@ def MyErrorResponse(errorMessage):
     result = {
               "status": "failure",
                "result": errorMessage}
-    return HttpResponse(json.dumps(result)) #convert this to json response
+    return HttpResponse(json.dumps(result), content_type = 'application/json') #convert this to json response
 
 def getEvents(request, inputParams):
     if inputParams is None or inputParams == "":
@@ -124,7 +132,7 @@ def getEvents(request, inputParams):
     urlDecoded = urllib.unquote(inputParams).decode('utf8') 
     urlFieldsParsed = parseInputParams(urlDecoded)
     if inputInvalid(urlFieldsParsed):
-        return MyErrorResponse("Invalid API params. Allowed params are city, lat, lon and category")
+        return MyErrorResponse("API malformed or Invalid API params. Allowed params are city, lat, lon, max_result and category")
     try:
         maxResults = urlFieldsParsed['max_results']
     except KeyError:

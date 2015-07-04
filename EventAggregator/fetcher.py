@@ -14,19 +14,23 @@ meetupBaseEventUrl = "https://api.meetup.com/2/open_events"
 #TODO: find param to limit number of results of api call and support for pagination
 def filterMeetupResults(response):
     response = json.loads(response)
-    events = response['results']
-    if len(events) == 0:
+    try:
+        events = response['results']
+    except KeyError: 
+        print "Error No results found. API request may be malformed"
+        print response
         return None
-    
+    #if len(events) == 0:
+    #    return None
+
     results = []
-    #print events[0]
     for event in events:
         result = {}#use a fixed object istead of a dictionary
         for key in event:
             #if key in ['start', 'end' ]:
             #   result['resource_uri'] = event[key] #time for both apis??
             if key == 'event_url':
-                result['resource_uri'] = event[key]
+                result['url'] = event[key]
             elif key == 'name':
                 result['name'] = event[key]
             #ERROR convert time to a common format for both event types
@@ -40,7 +44,7 @@ def filterMeetupResults(response):
                 result['organizer_id'] = event[key] #need to fetch organizer details
         result['info_source'] = 'meetup.com'
         results.append(result)
-            
+    
     return results
 
 def getOpenEventsNearby(urlParam={}):

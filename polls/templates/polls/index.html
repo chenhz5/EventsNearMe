@@ -11,12 +11,15 @@
 <body>
 <h1>Events Near Me</h1>
 
-<!-- TODO: put contents in a table and add js validation at source  -->
+<!-- TODO: put contents in a table and add js validation at client side -->
+
 <label>Select City</label> &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp
-<select id="select_city" name="city">
+
+<!-- <select id="select_city" name="city">
   <option value="Bangalore">Bangalore</option>
   <option value="Mumbai">Mumbai</option>
-</select><br><br>
+</select> <br><br>-->
+<input type="text" id="select_city" name="city"><br><br>
 
 <label> Select Category</label> &nbsp &nbsp
 <select id = "select_category" name="category">
@@ -31,6 +34,6 @@
  <input id="submit_btn" type="submit" value="Submit" onclick="onSubmitClicked()">
  <br><br><br>
 
- 
+ <div id="error_or_no_result" name = "error_or_no_result"></div>
 </body>
 </html>
