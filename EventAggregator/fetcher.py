@@ -46,8 +46,7 @@ def filterMeetupResults(response):
 def getOpenEventsNearby(urlParam={}):
     r = requests.get(meetupBaseEventUrl, params = urlParam)    
     print(r.url)    
-    return filterMeetupResults(r.text) #responseString  
-    #return r.text
+    return filterMeetupResults(r.text)
 
 def getMeetupEvent(urlParam = {}):
     urlParam['key'] = meetupAPIKey
@@ -77,7 +76,7 @@ def filterBriterResults(response):
                 elif key == 'organizer_id':
                     result['organizer_id'] = event[key] #need to fetch organizer details
             except: 
-                print "ERROR! some exception occured as field was NULL"
+                print "ERROR! some exception occured as field was EMPTY"
         result['info_source'] = 'eventbrite.com'
         results.append(result)
             

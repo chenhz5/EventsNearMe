@@ -83,7 +83,10 @@ def fetchMeetupEvents(urlFieldsParsed, maxResults):
 def aggregateResponses(meetup, brite):
     if brite is None:   brite = []
     if meetup is None:  meetup = []
-    return json.dumps(meetup + brite)
+    result = {
+      "status": "success",
+       "result": meetup + brite}
+    return json.dumps(result)
 
 def mapToBriteFields(urlFields):    
     briteFields = {}
@@ -110,8 +113,10 @@ def fetchBriteEvents(urlFields, maxResults):
     return briteEvents[:maxResults] if briteEvents is not None else None
 
 def MyErrorResponse(errorMessage):
-    #errorMessage = json.dumps("") 
-    return HttpResponse(errorMessage) #convert this to json response
+    result = {
+              "status": "failure",
+               "result": errorMessage}
+    return HttpResponse(json.dumps(result)) #convert this to json response
 
 def getEvents(request, inputParams):
     if inputParams is None or inputParams == "":
