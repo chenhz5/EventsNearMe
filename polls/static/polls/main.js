@@ -52,22 +52,26 @@ var deleteOldDivs = function(numDivs){
 }
 
 var old_length = 0;
-var get_event_cb = function(data) {
-  //alert('Your data is ' + data);
+var get_event_cb = function(response) {
+	if (response.result === "failure"){
+		alert('ERROR in calling API! Message' + response.result);
+		return;
+	} 
+	var data = response.result;
+	
 	deleteOldDivs(data.length);
-  generateDivs(data.length);
-  jQuery.each(data, function(i, val) {
+	generateDivs(data.length);
+    jQuery.each(data, function(i, val) {
 	  console.log(val.name + "*** " + val.url);
-	  $("#eventDiv-" + i).append(document.createTextNode(" - " + val.name + "****" + val.url ));
-	});
+      $("#eventDiv-" + i).append(document.createTextNode(" - " + val.name + "****" + val.url ));
+    });
   
   jQuery.each(data, function(i, val) {
-	  console.log("adding url links");
-	//TODO: error because the js is called before teh UI is loaded
+	  console.log("adding url links to dynamic div");
+	//TODO: error because the js is called before the div is loaded
 	  console.log("#eventDiv-" + i);
 	  //$("#eventDiv-" + i).addEventListener("click", function(){
 	  $("#eventDiv-" + i).bind("click", jumpToUrl, false);
-		
 	  old_length = data.length;
 	});
   
@@ -106,8 +110,8 @@ function onSubmitClicked(){
 	//TODO: validate if max_result is an int
 	console.log("max_results " + max_results);
 	
-	baseUrl = "http://127.0.0.1:8000/event/";
-	//baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
+	//baseUrl = "http://127.0.0.1:8000/event/";
+	baseUrl = "http://ec2-54-152-59-253.compute-1.amazonaws.com/event/"
 	url = baseUrl + "city="+city+ "&category="+category;
 	if(max_results != null){
 		url += "&max_results="+max_results
